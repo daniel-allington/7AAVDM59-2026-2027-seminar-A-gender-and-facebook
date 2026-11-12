@@ -10,7 +10,52 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(dplyr)
 library(readr)
+library(ggplot2)
+
+options(scipen = 999)
 
 d_gender <- read_csv('../data/BES-2017-f2f-gender-fb-tw.csv')
 ```
+
+# Hypothesis
+There is an association between gender and Facebook use
+
+# Visualisation
+```{r}
+d_gender %>%
+  ggplot(
+    aes(x = Gender)
+  ) +
+  geom_bar()
+```
+
+```{r}
+d_gender %>%
+  ggplot(
+    aes(x = Use_Facebook)
+  ) +
+  geom_bar()
+
+```
+
+# Analysis
+```{r}
+test_results <- chisq.test(
+  x = d_gender$Gender,
+  y = d_gender$Use_Facebook
+)
+```
+
+Observed counts
+```{r}
+test_results$observed
+```
+
+Expected counts
+```{r}
+test_results$expected
+```
+
+
+Women were found to be more likely to use Facebook, X2(N = 2189, DF = 1) = 18.046, p < .001.
 
